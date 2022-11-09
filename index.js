@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 8081;
 
 app.get('/', async (req, res) => {
   const username = req.query.username || 'myogeshchavan97';
+  console.log('username:',username);
   try {
     const result = await axios.get(
       `https://api.github.com/users/${username}/repos`
@@ -21,6 +22,19 @@ app.get('/', async (req, res) => {
     res.send(repos);
   } catch (error) {
     res.status(400).send('Error while getting list of repositories');
+  }
+});
+
+app.get('/ip', async (req, res) => {
+  const ip = req.query.ip || '';
+  let url = `http://ip-api.com/json/` +ip
+  console.log('url:', url);
+  try {
+    const result = await axios.get(url);
+    const repos = result.data
+    res.send(repos);
+  } catch (error) {
+    res.status(400).send(`Error:${error}`);
   }
 });
 
